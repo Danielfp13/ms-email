@@ -1,6 +1,8 @@
 package com.ms.email.services;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,8 +25,8 @@ public class EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    @SuppressWarnings("finally")
-	public EmailModel sendEmail(EmailModel emailModel) {
+
+	public EmailModel enviarEmail(EmailModel emailModel) {
         emailModel.setDataEnvio(LocalDateTime.now());
         try{
             SimpleMailMessage message = new SimpleMailMessage();
@@ -42,4 +44,11 @@ public class EmailService {
         }
     }
 
+    public Page<EmailModel> findAll(Pageable pageable) {
+        return  emailRepository.findAll(pageable);
+    }
+
+    public Optional<EmailModel> findById(UUID emailId) {
+        return emailRepository.findById(emailId);
+    }
 }
